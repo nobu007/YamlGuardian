@@ -8,17 +8,17 @@ from yamlguardian.core import YamlGuardian
 class TestValidate(unittest.TestCase):
 
     def test_load_yaml_schema(self):
-        schema = load_yaml_schema('tests/test_schema.yaml')
+        schema = load_yaml_schema('tests/rule_config/page_definitions/page1/test_schema.yaml')
         self.assertIsInstance(schema, dict)
 
     def test_validate_data(self):
-        schema = load_yaml_schema('tests/test_schema.yaml')
+        schema = load_yaml_schema('tests/rule_config/page_definitions/page1/test_schema.yaml')
         data = {'name': 'John', 'age': 30}
         errors = validate_data(data, schema)
         self.assertIsNone(errors)
 
     def test_validate_data_with_errors(self):
-        schema = load_yaml_schema('tests/test_schema.yaml')
+        schema = load_yaml_schema('tests/rule_config/page_definitions/page1/test_schema.yaml')
         data = {'name': 'John'}
         errors = validate_data(data, schema)
         self.assertIsNotNone(errors)
@@ -120,6 +120,80 @@ class TestValidate(unittest.TestCase):
         }
         errors = yaml_guardian.validate_page(page_data, 'rule_config/page_definitions/page1')
         self.assertIsNone(errors)
+
+    def test_validate_data_edge_cases(self):
+        schema = load_yaml_schema('tests/rule_config/page_definitions/page1/test_schema.yaml')
+        data = {'name': '', 'age': -1}
+        errors = validate_data(data, schema)
+        self.assertIsNotNone(errors)
+        self.assertIn('name', errors)
+        self.assertIn('age', errors)
+
+    def test_format_errors_edge_cases(self):
+        errors = {'name': ['required field'], 'age': {'min': 'min value is 0'}}
+        formatted_errors = format_errors(errors)
+        self.assertIn('name: required field', formatted_errors)
+        self.assertIn('age.min: min value is 0', formatted_errors)
+
+    def test_validate_page_edge_cases(self):
+        yaml_guardian = YamlGuardian(
+            schema_file='rule_config/common_definitions/common_definitions.yaml',
+            relations_file='rule_config/page_definitions/page1/root_element_relations.yaml',
+            common_definitions_file='rule_config/common_definitions/common_definitions.yaml'
+        )
+        page_data = {
+            'root_element': {
+                'name': 'FormA',
+                'type': 'form',
+                'description': 'このフォームはラベルとラジオボタンの関係を定義します。',
+                'attributes': {
+                    'action': '/submit',
+                    'method': 'post'
+                },
+                'elements': [
+                    {
+                        'name': 'AAA',
+                        'type': 'label',
+                        'description': 'このラベルは必須です。',
+                        'required': True,
+                        'attributes': {
+                            'for': 'input1'
+                        },
+                        'check': {
+                            'condition': 'every',
+                            'target': 'label'
+                        }
+                    },
+                    {
+                        'name': 'BBB',
+                        'type': 'radio',
+                        'description': 'このラジオボタンはオプションです。',
+                        'required': False,
+                        'attributes': {
+                            'id': 'input1',
+                            'name': 'options'
+                        },
+                        'prohibited': False,
+                        'check': {
+                            'condition': 'first_only',
+                            'target': 'radio'
+                        }
+                    },
+                    {
+                        'name': 'commonLabel',
+                        'type': 'label',
+                        'description': '共通ラベルを使用しています。',
+                        'required': True,
+                        'attributes': {
+                            'for': 'commonInput'
+                        },
+                        'uses_common': True
+                    }
+                ]
+            }
+        }
+        errors = yaml_guardian.validate_page(page_data, 'rule_config/page_definitions/page1')
+        self.assertIsNotNone(errors)
 
 if __name__ == '__main__':
     unittest.main()
