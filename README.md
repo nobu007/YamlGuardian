@@ -61,6 +61,17 @@ poetry run python yamlguardian/directory_analyzer.py
 
 The identified changes will be saved in a CSV file named `directory_structure_changes.csv` in the root directory.
 
+### Analyzing and Saving Directory Structure
+
+To analyze the directory structure and save the changes to a CSV file, use the `analyze_and_save_directory_structure` method in `YamlGuardian`:
+
+```python
+from yamlguardian.core import YamlGuardian
+
+guardian = YamlGuardian(schema_file='path/to/schema.yaml')
+guardian.analyze_and_save_directory_structure(root_dir='path/to/root_dir', csv_file='path/to/output.csv')
+```
+
 ## Design Documentation
 
 For detailed design documentation, please refer to the [DESIGN.md](DESIGN.md) file.
