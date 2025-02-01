@@ -6,6 +6,7 @@ import os
 from .directory_analyzer import DirectoryAnalyzer
 from .hierarchy_reader import HierarchyReader
 from .hierarchy_merger import HierarchyMerger
+from fastapi import HTTPException
 
 class YamlGuardian:
     def __init__(self, schema_file, relations_file=None, common_definitions_file=None):
@@ -63,3 +64,9 @@ class YamlGuardian:
 
     def merge_hierarchies(self, hierarchies):
         return self.hierarchy_merger.merge_hierarchies(hierarchies)
+
+    def validate_yaml(self, input_data):
+        try:
+            return self.validate_yaml_data(input_data.yaml_content)
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=str(e))

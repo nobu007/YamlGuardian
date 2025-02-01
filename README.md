@@ -72,6 +72,22 @@ guardian = YamlGuardian(schema_file='path/to/schema.yaml')
 guardian.analyze_and_save_directory_structure(root_dir='path/to/root_dir', csv_file='path/to/output.csv')
 ```
 
+### Running the FastAPI Server
+
+To run the FastAPI server using `uvicorn`, use the following command:
+
+```sh
+uvicorn main:app --reload
+```
+
+### Validating YAML Data
+
+To validate YAML data using the `/validate` endpoint, send a POST request to `http://127.0.0.1:8000/validate` with the YAML content in the request body. For example:
+
+```sh
+curl -X POST "http://127.0.0.1:8000/validate" -H "Content-Type: application/json" -d '{"yaml_content": "name: John\nage: 30"}'
+```
+
 ## Design Documentation
 
 For detailed design documentation, please refer to the [DESIGN.md](DESIGN.md) file.
