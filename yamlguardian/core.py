@@ -4,6 +4,8 @@ from .rules import RuleManager
 from .validate import load_yaml_schema, validate_data, format_errors
 import os
 from .directory_analyzer import DirectoryAnalyzer
+from .hierarchy_reader import HierarchyReader
+from .hierarchy_merger import HierarchyMerger
 
 class YamlGuardian:
     def __init__(self, schema_file, relations_file=None, common_definitions_file=None):
@@ -11,6 +13,8 @@ class YamlGuardian:
         self.relations = self.load_yaml(relations_file) if relations_file else None
         self.common_definitions = self.load_yaml(common_definitions_file) if relations_file else None
         self.rule_manager = RuleManager(self.schema, self.relations, self.common_definitions)
+        self.hierarchy_reader = HierarchyReader()
+        self.hierarchy_merger = HierarchyMerger()
 
     def load_yaml(self, file_path):
         with open(file_path, 'r', encoding='utf-8') as file:
@@ -46,3 +50,9 @@ class YamlGuardian:
         changes = analyzer.analyze_directory_structure(root_dir)
         analyzer.save_changes_to_csv(changes, csv_file)
         analyzer.save_cache()
+
+    def read_hierarchy(self, file_path):
+        return self.hierarchy_reader.read_hierarchy(file_path)
+
+    def merge_hierarchies(self, hierarchies):
+        return self.hierarchy_merger.merge_hierarchies(hierarchies)

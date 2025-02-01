@@ -3,6 +3,8 @@ import yaml
 import time
 import pandas as pd
 import csv
+from .hierarchy_reader import HierarchyReader
+from .hierarchy_merger import HierarchyMerger
 
 class DirectoryAnalyzer:
     cache_file = 'cache.csv'
@@ -11,9 +13,11 @@ class DirectoryAnalyzer:
         self.cache = {}
         self.cache_file = cache_file or DirectoryAnalyzer.cache_file
         self.load_cache()
+        self.hierarchy_reader = HierarchyReader()
+        self.hierarchy_merger = HierarchyMerger()
 
     def load_cache(self):
-        if os.path.exists(self.cache_file):
+        if (os.path.exists(self.cache_file)):
             df = pd.read_csv(self.cache_file)
             for _, row in df.iterrows():
                 self.cache[row['Path']] = (yaml.safe_load(row['Content']), row['Timestamp'])
@@ -31,22 +35,16 @@ class DirectoryAnalyzer:
 
     def analyze_directory_structure(self, root_dir):
         self.load_yaml_with_cache(root_dir)
-        changes = []
+        hierarchies = []
         for root, dirs, files in os.walk(root_dir):
-            for name in dirs:
-                changes.append(['Directory', os.path.join(root, name)])
             for name in files:
                 if name.endswith('.yaml'):
                     file_path = os.path.join(root, name)
-                    self.load_yaml_with_cache(file_path)
-                changes.append(['File', os.path.join(root, name)])
-        return changes
-
-    def save_changes_to_csv(self, changes, csv_file):
-        with open(csv_file, 'w', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow(['Type', 'Path'])
-            writer.writerows(changes)
+                    hierarchy = self.read_hierarchy(file_path)
+                    hierarchies.append(hierarchy)
+                    self.cache[file_path] = (hierarchy, os.path.getmtime(file_path))
+        merged_hierarchy = self.merge_hierarchies(hierarchies)
+        return merged_hierarchy
 
     def save_cache(self):
         data = []
@@ -55,14 +53,16 @@ class DirectoryAnalyzer:
         df = pd.DataFrame(data)
         df.to_csv(self.cache_file, index=False)
 
-    def load_changes_from_csv(self, csv_file):
-        return pd.read_csv(csv_file)
+    def read_hierarchy(self, file_path):
+        return self.hierarchy_reader.read_hierarchy(file_path)
+
+    def merge_hierarchies(self, hierarchies):
+        return self.hierarchy_merger.merge_hierarchies(hierarchies)
 
 if __name__ == "__main__":
     analyzer = DirectoryAnalyzer()
     root_directory = '.'
-    changes = analyzer.analyze_directory_structure(root_directory)
-    analyzer.save_changes_to_csv(changes, 'directory_structure_changes.csv')
+    merged_hierarchy = analyzer.analyze_directory_structure(root_directory)
     analyzer.save_cache()
-    print(f"Changes saved to directory_structure_changes.csv")
+    print(f"Merged Hierarchy: {merged_hierarchy}")
     print(f"Timestamp: {time.strftime('%Y-%m-%d %H:%M:%S')}")
