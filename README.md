@@ -50,3 +50,13 @@ To run the edge case tests, use the following command:
 ```sh
 poetry run python -m unittest tests/test_validate.py
 ```
+
+### Analyzing Directory Structure
+
+To analyze the directory structure and identify necessary changes, run the following script:
+
+```sh
+poetry run python yamlguardian/directory_analyzer.py
+```
+
+The identified changes will be saved in a CSV file named `directory_structure_changes.csv` in the root directory.
