@@ -42,3 +42,11 @@ You can run the tests using the following command:
 ```sh
 poetry run python -m unittest discover -s tests
 ```
+
+### Running Edge Case Tests
+
+To run the edge case tests, use the following command:
+
+```sh
+poetry run python -m unittest tests/test_validate.py
+```

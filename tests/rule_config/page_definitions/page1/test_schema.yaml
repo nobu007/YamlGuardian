@@ -1,0 +1,9 @@
+name:
+  type: string
+  minlength: 1
+  maxlength: 50
+  required: true
+age:
+  type: integer
+  min: 0
+  required: true
