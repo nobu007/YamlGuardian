@@ -17,8 +17,15 @@ class YamlGuardian:
         self.hierarchy_merger = HierarchyMerger()
 
     def load_yaml(self, file_path):
-        with open(file_path, 'r', encoding='utf-8') as file:
-            return yaml.safe_load(file)
+        try:
+            with open(file_path, 'r', encoding='utf-8') as file:
+                return yaml.safe_load(file)
+        except yaml.YAMLError as e:
+            raise ValueError(f"YAML読み込みエラー: {e}")
+        except FileNotFoundError:
+            raise ValueError(f"ファイルが見つかりません: {file_path}")
+        except Exception as e:
+            raise ValueError(f"予期しないエラーが発生しました: {e}")
 
     def validate(self, data):
         schema = load_yaml_schema(self.schema)
