@@ -1,6 +1,8 @@
 import argparse
 import yaml
-from yamlguardian.validate import load_yaml_schema, validate_data, format_errors
+from yamlguardian.validate import load_yaml_schema
+from yamlguardian.validate import validate_data
+from yamlguardian.validate import format_errors
 from yamlguardian.cerberus_adapter import convert_yaml_to_cerberus, load_yaml_file
 
 def main():
