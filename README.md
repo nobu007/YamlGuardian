@@ -60,3 +60,7 @@ poetry run python yamlguardian/directory_analyzer.py
 ```
 
 The identified changes will be saved in a CSV file named `directory_structure_changes.csv` in the root directory.
+
+## Design Documentation
+
+For detailed design documentation, please refer to the [DESIGN.md](DESIGN.md) file.
