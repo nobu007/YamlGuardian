@@ -2,6 +2,8 @@ import os
 import yaml
 import time
 import pandas as pd
+from .hierarchy_reader import HierarchyReader
+from .hierarchy_merger import HierarchyMerger
 
 class DirectoryAnalyzer:
     cache_file = 'cache.csv'
@@ -10,6 +12,8 @@ class DirectoryAnalyzer:
         self.cache = {}
         self.cache_file = cache_file or DirectoryAnalyzer.cache_file
         self.load_cache()
+        self.hierarchy_reader = HierarchyReader()
+        self.hierarchy_merger = HierarchyMerger()
 
     def load_cache(self):
         if os.path.exists(self.cache_file):
