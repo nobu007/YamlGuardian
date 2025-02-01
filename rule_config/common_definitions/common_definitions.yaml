@@ -12,3 +12,32 @@ common_elements:
     required: false
     attributes:
       name: "commonOptions"
+
+schema:
+  type: object
+  properties:
+    common_elements:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+            description: "要素の名前"
+            required: true
+          type:
+            type: string
+            description: "要素のタイプ"
+            required: true
+          description:
+            type: string
+            description: "要素の説明"
+            required: true
+          required:
+            type: boolean
+            description: "要素が必須かどうか"
+            required: true
+          attributes:
+            type: object
+            description: "要素の属性"
+            required: false

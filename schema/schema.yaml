@@ -1,0 +1,89 @@
+openapi: 3.0.0
+info:
+  title: YamlGuardian Schema
+  version: 1.0.0
+  description: YamlGuardianのスキーマ定義
+
+components:
+  schemas:
+    RootElement:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 要素の名前
+        type:
+          type: string
+          description: 要素のタイプ
+        description:
+          type: string
+          description: 要素の説明
+        required:
+          type: boolean
+          description: 要素が必須かどうか
+        attributes:
+          type: object
+          description: 要素の属性
+          additionalProperties:
+            type: string
+        elements:
+          type: array
+          items:
+            $ref: '#/components/schemas/Element'
+    Element:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 要素の名前
+        type:
+          type: string
+          description: 要素のタイプ
+        description:
+          type: string
+          description: 要素の説明
+        required:
+          type: boolean
+          description: 要素が必須かどうか
+        attributes:
+          type: object
+          description: 要素の属性
+          additionalProperties:
+            type: string
+        uses_common:
+          type: boolean
+          description: 共通要素を使用するかどうか
+    RootElementRelation:
+      type: object
+      properties:
+        source:
+          type: string
+          description: ソース要素の名前
+        target:
+          type: string
+          description: ターゲット要素の名前
+        condition:
+          type: string
+          description: 関係の条件
+    CommonElement:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 要素の名前
+        type:
+          type: string
+          description: 要素のタイプ
+        description:
+          type: string
+          description: 要素の説明
+        required:
+          type: boolean
+          description: 要素が必須かどうか
+        attributes:
+          type: object
+          description: 要素の属性
+          additionalProperties:
+            type: string
+
+paths: {}
