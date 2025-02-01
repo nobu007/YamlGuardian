@@ -30,4 +30,10 @@ class RuleManager:
                 for rule in element['custom_rules']:
                     if not rule(data.get(element['name'])):
                         errors.append(f"{element['description']} のカスタムルールに違反しています。")
+
+            # Check for uses_common attribute
+            if element.get('uses_common'):
+                common_element = next((e for e in self.common_definitions.get('common_elements', []) if e['name'] == element['name']), None)
+                if not common_element:
+                    errors.append(f"{element['description']} は共通要素として定義されていません。")
         return errors

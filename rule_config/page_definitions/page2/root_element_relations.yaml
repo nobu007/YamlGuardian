@@ -1,0 +1,7 @@
+root_element_relations:
+  - source: "FormD"
+    target: "FormE"
+    condition: "exists"  # FormDが存在する場合にFormEをチェック
+  - source: "FormF"
+    target: "commonRadio"
+    condition: "uses_common"  # FormFが共通ラジオボタンを使用する場合

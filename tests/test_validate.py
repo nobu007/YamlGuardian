@@ -3,6 +3,7 @@ import yaml
 from yamlguardian.validate import load_yaml_schema, validate_data, format_errors
 from yamlguardian.validator import Validator
 from yamlguardian.rules import RuleManager
+from yamlguardian.core import YamlGuardian
 
 class TestValidate(unittest.TestCase):
 
@@ -59,6 +60,66 @@ class TestValidate(unittest.TestCase):
         data_invalid = {'custom_field': 'invalid_value'}
         errors_invalid = rule_manager.validate(data_invalid)
         self.assertNotEqual(errors_invalid, [])
+
+    def test_yaml_guardian_page_definitions(self):
+        yaml_guardian = YamlGuardian(
+            schema_file='rule_config/common_definitions/common_definitions.yaml',
+            relations_file='rule_config/page_definitions/page1/root_element_relations.yaml',
+            common_definitions_file='rule_config/common_definitions/common_definitions.yaml'
+        )
+        page_data = {
+            'root_element': {
+                'name': 'FormA',
+                'type': 'form',
+                'description': 'このフォームはラベルとラジオボタンの関係を定義します。',
+                'attributes': {
+                    'action': '/submit',
+                    'method': 'post'
+                },
+                'elements': [
+                    {
+                        'name': 'AAA',
+                        'type': 'label',
+                        'description': 'このラベルは必須です。',
+                        'required': True,
+                        'attributes': {
+                            'for': 'input1'
+                        },
+                        'check': {
+                            'condition': 'every',
+                            'target': 'label'
+                        }
+                    },
+                    {
+                        'name': 'BBB',
+                        'type': 'radio',
+                        'description': 'このラジオボタンはオプションです。',
+                        'required': False,
+                        'attributes': {
+                            'id': 'input1',
+                            'name': 'options'
+                        },
+                        'prohibited': False,
+                        'check': {
+                            'condition': 'first_only',
+                            'target': 'radio'
+                        }
+                    },
+                    {
+                        'name': 'commonLabel',
+                        'type': 'label',
+                        'description': '共通ラベルを使用しています。',
+                        'required': True,
+                        'attributes': {
+                            'for': 'commonInput'
+                        },
+                        'uses_common': True
+                    }
+                ]
+            }
+        }
+        errors = yaml_guardian.validate_page(page_data, 'rule_config/page_definitions/page1')
+        self.assertIsNone(errors)
 
 if __name__ == '__main__':
     unittest.main()
