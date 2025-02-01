@@ -5,3 +5,24 @@ root_element_relations:
   - source: "FormC"
     target: "commonLabel"
     condition: "uses_common"  # FormCが共通ラベルを使用する場合
+
+schema:
+  type: object
+  properties:
+    root_element_relations:
+      type: array
+      items:
+        type: object
+        properties:
+          source:
+            type: string
+            description: "ソース要素の名前"
+            required: true
+          target:
+            type: string
+            description: "ターゲット要素の名前"
+            required: true
+          condition:
+            type: string
+            description: "関係の条件"
+            required: true
