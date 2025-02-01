@@ -1,6 +1,7 @@
 import unittest
 import subprocess
 import os
+from yamlguardian import cli
 
 class TestCLI(unittest.TestCase):
 
