@@ -1,0 +1,5 @@
+common_elements:
+  - name: animal
+    type: label
+    description: "動物"
+    required: true
