@@ -50,7 +50,7 @@ class TestDirectoryAnalyzer(unittest.TestCase):
         content1 = analyzer.load_yaml_with_cache(file_path)
         content2 = analyzer.load_yaml_with_cache(file_path)
         self.assertEqual(content1, content2)
-        self.assertIn(file_path, analyzer.cache)
+        self.assertIn(file_path, analyzer.validation_schema_cache)
 
 if __name__ == '__main__':
     unittest.main()

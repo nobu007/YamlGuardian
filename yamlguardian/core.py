@@ -1,11 +1,11 @@
 import yaml
-from .validator import Validator
-from .rules import RuleManager
-from .validate import load_yaml_schema, validate_data, format_errors
+from yamlguardian.validator import Validator
+from yamlguardian.rules import RuleManager
+from yamlguardian.validate import load_validation_rules, validate_data, format_errors
 import os
-from .directory_analyzer import DirectoryAnalyzer
-from .hierarchy_reader import HierarchyReader
-from .hierarchy_merger import HierarchyMerger
+from yamlguardian.directory_analyzer import DirectoryAnalyzer
+from yamlguardian.hierarchy_reader import HierarchyReader
+from yamlguardian.hierarchy_merger import HierarchyMerger
 from fastapi import HTTPException
 
 class YamlGuardian:
@@ -29,7 +29,7 @@ class YamlGuardian:
             raise ValueError(f"予期しないエラーが発生しました: {e}")
 
     def validate(self, data):
-        schema = load_yaml_schema(self.schema)
+        schema = load_validation_rules(self.schema)
         errors = validate_data(data, schema)
         if errors:
             return format_errors(errors)
@@ -56,7 +56,7 @@ class YamlGuardian:
     def validate_page(self, page_data, page_definitions_dir):
         page_definitions = self.load_page_definitions(page_definitions_dir)
         for file_path, definition in page_definitions.items():
-            schema = load_yaml_schema(definition)
+            schema = load_validation_rules(definition)
             errors = validate_data(page_data, schema)
             if errors:
                 return format_errors(errors)

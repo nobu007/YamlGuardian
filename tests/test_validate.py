@@ -1,6 +1,6 @@
 import unittest
 import yaml
-from yamlguardian.validate import load_yaml_schema, validate_data, format_errors, validate_openapi_schema, validate_user_defined_yaml, validate_user_provided_yaml
+from yamlguardian.validate import load_validation_rules, validate_data, format_errors, validate_openapi_schema, validate_user_defined_yaml, validate_user_provided_yaml
 from yamlguardian.validator import Validator
 from yamlguardian.rules import RuleManager
 from yamlguardian.core import YamlGuardian
@@ -8,17 +8,17 @@ from yamlguardian.core import YamlGuardian
 class TestValidate(unittest.TestCase):
 
     def test_load_yaml_schema(self):
-        schema = load_yaml_schema('tests/rule_config/page_definitions/page1/test_schema.yaml')
+        schema = load_validation_rules('tests/rule_config/page_definitions/page1/test_schema.yaml')
         self.assertIsInstance(schema, dict)
 
     def test_validate_data(self):
-        schema = load_yaml_schema('tests/rule_config/page_definitions/page1/test_schema.yaml')
+        schema = load_validation_rules('tests/rule_config/page_definitions/page1/test_schema.yaml')
         data = {'name': 'John', 'age': 30}
         errors = validate_data(data, schema)
         self.assertIsNone(errors)
 
     def test_validate_data_with_errors(self):
-        schema = load_yaml_schema('tests/rule_config/page_definitions/page1/test_schema.yaml')
+        schema = load_validation_rules('tests/rule_config/page_definitions/page1/test_schema.yaml')
         data = {'name': 'John'}
         errors = validate_data(data, schema)
         self.assertIsNotNone(errors)
@@ -122,7 +122,7 @@ class TestValidate(unittest.TestCase):
         self.assertIsNone(errors)
 
     def test_validate_data_edge_cases(self):
-        schema = load_yaml_schema('tests/rule_config/page_definitions/page1/test_schema.yaml')
+        schema = load_validation_rules('tests/rule_config/page_definitions/page1/test_schema.yaml')
         data = {'name': '', 'age': -1}
         errors = validate_data(data, schema)
         self.assertIsNotNone(errors)

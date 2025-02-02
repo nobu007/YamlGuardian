@@ -1,4 +1,4 @@
-from .validator import Validator
+from yamlguardian.validator import Validator
 
 class RuleManager:
     def __init__(self, schema, relations=None, common_definitions=None):

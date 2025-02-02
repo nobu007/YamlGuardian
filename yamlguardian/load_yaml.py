@@ -1,34 +1,25 @@
 import yaml
 import jsonschema
-from cerberus import Validator
 import os
-from yamlguardian.load_yaml import load_yaml_file, format_errors
-from yamlguardian.directory_analyzer import DirectoryAnalyzer
 
 
-def load_validation_rules(file_or_dir_path: str) -> dict | None:
-    validation_schema = None
-    if os.path.isfile(file_or_dir_path):
-        with open(file_or_dir_path, "r", encoding="utf-8") as file:
-            validation_schema = yaml.safe_load(file)
-    else:
-        # Load all yaml files in the directory
-        analyzer = DirectoryAnalyzer()
-        validation_schema = analyzer.analyze_directory_structure(file_or_dir_path)
-    return validation_schema
+def load_yaml_file(yaml_file_path: str) -> dict | None:
+    schema = None
+    if os.path.isfile(yaml_file_path):
+        with open(yaml_file_path, "r") as file:
+            schema = yaml.safe_load(file)
+    return schema
 
 
-def validate_data(data, schema) -> str:
+def validate_data(data, schema):
     try:
         jsonschema.validate(instance=data, schema=schema)
     except jsonschema.exceptions.ValidationError as e:
-        print("validate_data ValidationError: e=", e)
-        return [str(e)]
-    return []  # no error
+        return str(e)
+    return None
 
 
-def format_errors(errors: dict | list | str) -> str:
-    print("format_errors: errors=", errors)
+def format_errors(errors):
     formatted_errors = []
     for field, error in errors.items():
         if isinstance(error, list):
@@ -37,11 +28,6 @@ def format_errors(errors: dict | list | str) -> str:
         elif isinstance(error, dict):
             for subfield, suberror in error.items():
                 formatted_errors.append(f"{field}.{subfield}: {suberror}")
-        else:
-            if error:
-                formatted_errors.append(f"{field}: type={type}, {error}")
-            else:
-                pass  # No error
     return "\n".join(formatted_errors)
 
 
@@ -57,7 +43,7 @@ def validate_yaml_data(input_data):
         user_provided_validation_result = validate_user_provided_yaml(input_data)
         if user_provided_validation_result["message"] == "Validation failed":
             return user_provided_validation_result
-        schema = load_validation_rules("schema.yaml")
+        schema = load_yaml_file("schema.yaml")
         errors = validate_data(data, schema)
         if errors:
             return {"message": "Validation failed", "errors": format_errors(errors)}
@@ -69,7 +55,7 @@ def validate_yaml_data(input_data):
 def validate_openapi_schema(input_data):
     try:
         validation_rules = yaml.safe_load(input_data)
-        schema = load_validation_rules("openapi_schema.yaml")
+        schema = load_yaml_file("openapi_schema.yaml")
         v = Validator(schema)
         if not v.validate(validation_rules):
             return {"message": "Validation failed", "errors": v.errors}
@@ -81,7 +67,7 @@ def validate_openapi_schema(input_data):
 def validate_user_defined_yaml(input_data):
     try:
         data = yaml.safe_load(input_data)
-        schema = load_validation_rules("user_defined_yaml.yaml")
+        schema = load_yaml_file("user_defined_yaml.yaml")
         v = Validator(schema)
         if not v.validate(data):
             return {"message": "Validation failed", "errors": v.errors}
@@ -93,7 +79,7 @@ def validate_user_defined_yaml(input_data):
 def validate_user_provided_yaml(input_data):
     try:
         data = yaml.safe_load(input_data)
-        schema = load_validation_rules("user_provided_yaml.yaml")
+        schema = load_yaml_file("user_provided_yaml.yaml")
         v = Validator(schema)
         if not v.validate(data):
             return {"message": "Validation failed", "errors": v.errors}
