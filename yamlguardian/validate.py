@@ -47,10 +47,10 @@ def validate_yaml_data(input_data):
 
 def validate_openapi_schema(input_data):
     try:
-        data = yaml.safe_load(input_data)
+        validation_rules = yaml.safe_load(input_data)
         schema = load_yaml_schema('openapi_schema.yaml')
         v = Validator(schema)
-        if not v.validate(data):
+        if not v.validate(validation_rules):
             return {"message": "Validation failed", "errors": v.errors}
         return {"message": "Validation successful"}
     except Exception as e:
