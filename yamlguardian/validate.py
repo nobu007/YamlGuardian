@@ -31,6 +31,12 @@ def validate_yaml_data(input_data):
         openapi_validation_result = validate_openapi_schema(input_data)
         if openapi_validation_result["message"] == "Validation failed":
             return openapi_validation_result
+        user_defined_validation_result = validate_user_defined_yaml(input_data)
+        if user_defined_validation_result["message"] == "Validation failed":
+            return user_defined_validation_result
+        user_provided_validation_result = validate_user_provided_yaml(input_data)
+        if user_provided_validation_result["message"] == "Validation failed":
+            return user_provided_validation_result
         schema = load_yaml_schema('schema.yaml')
         errors = validate_data(data, schema)
         if errors:
@@ -43,6 +49,28 @@ def validate_openapi_schema(input_data):
     try:
         data = yaml.safe_load(input_data)
         schema = load_yaml_schema('openapi_schema.yaml')
+        v = Validator(schema)
+        if not v.validate(data):
+            return {"message": "Validation failed", "errors": v.errors}
+        return {"message": "Validation successful"}
+    except Exception as e:
+        return {"message": "Validation error", "detail": str(e)}
+
+def validate_user_defined_yaml(input_data):
+    try:
+        data = yaml.safe_load(input_data)
+        schema = load_yaml_schema('user_defined_yaml.yaml')
+        v = Validator(schema)
+        if not v.validate(data):
+            return {"message": "Validation failed", "errors": v.errors}
+        return {"message": "Validation successful"}
+    except Exception as e:
+        return {"message": "Validation error", "detail": str(e)}
+
+def validate_user_provided_yaml(input_data):
+    try:
+        data = yaml.safe_load(input_data)
+        schema = load_yaml_schema('user_provided_yaml.yaml')
         v = Validator(schema)
         if not v.validate(data):
             return {"message": "Validation failed", "errors": v.errors}

@@ -1,6 +1,6 @@
 import unittest
 import yaml
-from yamlguardian.validate import load_yaml_schema, validate_data, format_errors
+from yamlguardian.validate import load_yaml_schema, validate_data, format_errors, validate_openapi_schema, validate_user_defined_yaml, validate_user_provided_yaml
 from yamlguardian.validator import Validator
 from yamlguardian.rules import RuleManager
 from yamlguardian.core import YamlGuardian
@@ -194,6 +194,45 @@ class TestValidate(unittest.TestCase):
         }
         errors = yaml_guardian.validate_page(page_data, 'rule_config/page_definitions/page1')
         self.assertIsNotNone(errors)
+
+    def test_validate_openapi_schema(self):
+        input_data = """
+        openapi: 3.0.0
+        info:
+          title: Sample API
+          version: 1.0.0
+          description: A sample API
+        paths:
+          /sample:
+            get:
+              description: Sample GET endpoint
+        """
+        result = validate_openapi_schema(input_data)
+        self.assertEqual(result["message"], "Validation successful")
+
+    def test_validate_user_defined_yaml(self):
+        input_data = """
+        name: UserDefined
+        type: custom
+        description: A user defined YAML
+        required: true
+        attributes:
+          key: value
+        """
+        result = validate_user_defined_yaml(input_data)
+        self.assertEqual(result["message"], "Validation successful")
+
+    def test_validate_user_provided_yaml(self):
+        input_data = """
+        name: UserProvided
+        type: custom
+        description: A user provided YAML
+        required: true
+        attributes:
+          key: value
+        """
+        result = validate_user_provided_yaml(input_data)
+        self.assertEqual(result["message"], "Validation successful")
 
 if __name__ == '__main__':
     unittest.main()

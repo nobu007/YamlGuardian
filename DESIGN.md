@@ -97,4 +97,14 @@ YAMLファイルの読み込みに失敗した場合、適切なエラーメッ�
 ### CI/CD統合
 自動化されたテストと統合を行うことで、データの整合性を継続的にチェックできるようにします。
 
+## 8. Validation Stages
+### Stage 1: Schema validation using `validate_openapi_schema`
+In this stage, the input YAML data is validated against the OpenAPI schema to ensure it conforms to the defined structure and rules.
+
+### Stage 2: User-defined YAML validation
+In this stage, the input YAML data is validated against user-defined schemas to ensure it meets the specific requirements defined by the user.
+
+### Stage 3: User-provided YAML validation
+In this stage, the input YAML data is validated against the schemas provided by the user to ensure it adheres to the expected format and rules.
+
 この設計文書は、YamlGuardianの全体的な構造と機能を明確に示しています。この文書を基に、開発を進めることができます。必要に応じて、さらなる詳細や仕様を追加することが可能です。
