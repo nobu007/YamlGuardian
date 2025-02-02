@@ -33,7 +33,16 @@ class YamlGuardian:
         errors = validate_data(data, schema)
         if errors:
             return format_errors(errors)
-        return self.rule_manager.validate(data)
+        openapi_result = self.rule_manager.validate_openapi_schema(data)
+        if openapi_result["message"] == "Validation failed":
+            return openapi_result
+        user_defined_result = self.rule_manager.validate_user_defined_yaml(data)
+        if user_defined_result["message"] == "Validation failed":
+            return user_defined_result
+        user_provided_result = self.rule_manager.validate_user_provided_yaml(data)
+        if user_provided_result["message"] == "Validation failed":
+            return user_provided_result
+        return {"message": "Validation successful"}
 
     def load_page_definitions(self, page_definitions_dir):
         page_definitions = {}
@@ -51,7 +60,16 @@ class YamlGuardian:
             errors = validate_data(page_data, schema)
             if errors:
                 return format_errors(errors)
-        return self.rule_manager.validate(page_data)
+            openapi_result = self.rule_manager.validate_openapi_schema(page_data)
+            if openapi_result["message"] == "Validation failed":
+                return openapi_result
+            user_defined_result = self.rule_manager.validate_user_defined_yaml(page_data)
+            if user_defined_result["message"] == "Validation failed":
+                return user_defined_result
+            user_provided_result = self.rule_manager.validate_user_provided_yaml(page_data)
+            if user_provided_result["message"] == "Validation failed":
+                return user_provided_result
+        return {"message": "Validation successful"}
 
     def analyze_and_save_directory_structure(self, root_dir, csv_file):
         analyzer = DirectoryAnalyzer()

@@ -33,19 +33,21 @@ def validate_yaml_endpoint(input_data: YamlInput):
     try:
         openapi_result = validate_openapi_schema(input_data.yaml_content)
         if openapi_result["message"] == "Validation failed":
-            return openapi_result
+            return JSONResponse(status_code=400, content=openapi_result)
 
         user_defined_result = validate_user_defined_yaml(input_data.yaml_content)
         if user_defined_result["message"] == "Validation failed":
-            return user_defined_result
+            return JSONResponse(status_code=400, content=user_defined_result)
 
         user_provided_result = validate_user_provided_yaml(input_data.yaml_content)
         if user_provided_result["message"] == "Validation failed":
-            return user_provided_result
+            return JSONResponse(status_code=400, content=user_provided_result)
 
         return {"message": "Validation successful"}
+    except jsonschema.exceptions.ValidationError as e:
+        return JSONResponse(status_code=422, content={"message": "Validation error", "detail": str(e)})
     except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        return JSONResponse(status_code=500, content={"message": "Internal server error", "detail": str(e)})
 
 # コマンドライン実行時
 if __name__ == "__main__":
