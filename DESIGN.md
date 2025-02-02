@@ -152,3 +152,50 @@ python -m yamlguardian.analyze_directory_structure <root_directory>
 
 ### CI/CD統合
 自動化されたテストと統合を行うことで、データの整合性を継続的にチェックできるようにします。
+
+## 14. 用語集
+
+### OpenAPIスキーマ (openapi_schema)
+OpenAPI仕様に基づいて定義されたスキーマ。yaml_validation_rules自体についてのルールを表現します。
+
+### 検証ルール (validation_rules)
+openapi_schemaに基づいて入力されたYAMLデータ。yamlファイルの形式で提供されます。
+
+### 検証対象 (validation_target)
+検証対象として入力されたYAMLデータ。
+
+### schema
+検証ルールを読み込んだ結果を格納する変数。
+
+### common_definitions
+共通定義ファイルを読み込んだ結果を格納する変数。
+
+### rule_manager
+ルールを管理し、検証を行うためのオブジェクト。
+
+### hierarchy_reader
+階層構造を読み込むためのオブジェクト。
+
+### hierarchy_merger
+階層構造をマージするためのオブジェクト。
+
+### 検証スキーマ (validation_schema)
+階層構造をマージ後の検証ルールを格納する変数。
+
+### 検証スキーマキャッシュ (validation_schema_cache)
+階層構造をマージ後の検証ルールをキャッシュする変数。
+
+### validation_schema_cache_file
+検証スキーマキャッシュを保存するファイルのパスを格納する変数。
+
+### analyzer
+ディレクトリ解析を行うためのオブジェクト。
+
+### root_directory
+解析対象のルートディレクトリのパスを格納する変数。
+
+### changes
+ディレクトリ解析の結果、変更されたファイルやディレクトリのリストを格納する変数。
+
+### changes_csv_file
+変更結果を保存するCSVファイルのパスを格納する変数。
