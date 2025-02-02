@@ -234,5 +234,21 @@ class TestValidate(unittest.TestCase):
         result = validate_user_provided_yaml(input_data)
         self.assertEqual(result["message"], "Validation successful")
 
+    def test_validate_yaml_data(self):
+        input_data = """
+        name: John
+        age: 30
+        """
+        result = validate_yaml_data(input_data)
+        self.assertEqual(result["message"], "Validation successful")
+
+    def test_validate_yaml_data_with_errors(self):
+        input_data = """
+        name: John
+        """
+        result = validate_yaml_data(input_data)
+        self.assertEqual(result["message"], "Validation failed")
+        self.assertIn("errors", result)
+
 if __name__ == '__main__':
     unittest.main()

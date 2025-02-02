@@ -4,6 +4,7 @@ from cerberus import Validator
 import os
 from yamlguardian.load_yaml import load_yaml_file, format_errors
 from yamlguardian.directory_analyzer import DirectoryAnalyzer
+from yamlguardian.yaml_json_converter import YamlJsonConverter
 
 
 def load_validation_rules(file_or_dir_path: str) -> dict | None:
@@ -58,7 +59,8 @@ def validate_yaml_data(input_data):
         if user_provided_validation_result["message"] == "Validation failed":
             return user_provided_validation_result
         schema = load_validation_rules("schema.yaml")
-        errors = validate_data(data, schema)
+        json_schema = YamlJsonConverter.yaml_to_json(schema)
+        errors = validate_data(data, json_schema)
         if errors:
             return {"message": "Validation failed", "errors": format_errors(errors)}
         return {"message": "Validation successful"}
