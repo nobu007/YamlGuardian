@@ -107,4 +107,48 @@ In this stage, the input YAML data is validated against user-defined schemas to 
 ### Stage 3: User-provided YAML validation
 In this stage, the input YAML data is validated against the schemas provided by the user to ensure it adheres to the expected format and rules.
 
-この設計文書は、YamlGuardianの全体的な構造と機能を明確に示しています。この文書を基に、開発を進めることができます。必要に応じて、さらなる詳細や仕様を追加することが可能です。
+## 9. CLIインターフェースとその使用法
+CLIインターフェースは、コマンドラインからデータを検証するためのツールです。以下のコマンドを使用して、YAMLデータを検証できます。
+
+```sh
+python -m yamlguardian.cli <data_file> <schema_file>
+```
+
+このコマンドは、指定されたデータファイルとスキーマファイルを読み込み、データがスキーマに準拠しているかどうかを検証します。検証結果は、成功またはエラーメッセージとして表示されます。
+
+## 10. FastAPIサーバーとエンドポイント
+FastAPIサーバーは、HTTPリクエストを受け付けてデータを検証するためのエンドポイントを提供します。以下は、主要なエンドポイントの説明です。
+
+### `/schema` エンドポイント
+このエンドポイントは、スキーマをJSON形式で公開します。GETリクエストを送信すると、スキーマが返されます。
+
+### `/validate` エンドポイント
+このエンドポイントは、YAMLデータを検証します。POSTリクエストを送信し、リクエストボディにYAMLデータを含めると、検証結果が返されます。
+
+## 11. ディレクトリ構造の解析とCSVファイルへの変更保存
+ディレクトリ構造を解析し、変更をCSVファイルに保存する機能を提供します。以下のコマンドを使用して、ディレクトリ構造を解析し、変更を保存できます。
+
+```sh
+python -m yamlguardian.analyze_directory_structure <root_directory>
+```
+
+このコマンドは、指定されたルートディレクトリを解析し、変更を`directory_structure_changes.csv`ファイルに保存します。
+
+## 12. Validation Stagesの実装
+`yamlguardian/validate.py`ファイルには、以下の検証ステージが実装されています。
+
+### Stage 1: Schema validation using `validate_openapi_schema`
+このステージでは、入力されたYAMLデータがOpenAPIスキーマに準拠しているかどうかを検証します。
+
+### Stage 2: User-defined YAML validation
+このステージでは、入力されたYAMLデータがユーザー定義のスキーマに準拠しているかどうかを検証します。
+
+### Stage 3: User-provided YAML validation
+このステージでは、入力されたYAMLデータがユーザー提供のスキーマに準拠しているかどうかを検証します。
+
+## 13. 今後の展望
+### GUIインターフェースの追加
+ユーザーがより直感的にデータを検証できるように、GUIを開発することを検討します。
+
+### CI/CD統合
+自動化されたテストと統合を行うことで、データの整合性を継続的にチェックできるようにします。
