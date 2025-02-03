@@ -5,6 +5,10 @@ YamlGuardian
 
 This project uses GitHub Actions for continuous integration. The CI workflow is defined in the `.github/workflows/ci.yml` file. It runs tests on every push and pull request to ensure the codebase remains stable.
 
+## Auto-Merge Feature
+
+We have added a new auto-merge feature to our CI workflow. This feature automatically merges pull requests if all CI checks pass. The auto-merge process is handled by the `peter-evans/merge` GitHub Action. This ensures that only PRs that pass all checks are merged, maintaining the stability of the codebase.
+
 ## Setup Instructions
 
 ### Prerequisites
