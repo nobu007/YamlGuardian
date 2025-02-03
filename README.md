@@ -92,6 +92,17 @@ To validate YAML data using the `/validate` endpoint, send a POST request to `ht
 curl -X POST "http://127.0.0.1:8000/validate" -H "Content-Type: application/json" -d '{"yaml_content": "name: John\nage: 30"}'
 ```
 
+## Fixing CI Errors
+
+If you encounter CI errors, follow these steps to resolve them:
+
+1. **Check the CI logs**: Review the logs in the GitHub Actions tab to identify the cause of the error.
+2. **Common issues**:
+   - **Dependency issues**: Ensure all dependencies are correctly specified in `pyproject.toml` and run `poetry install` to install them.
+   - **Test failures**: Run the tests locally using `poetry run python -m unittest discover -s tests` to identify and fix any failing tests.
+   - **Linting errors**: Ensure your code adheres to the project's linting rules. Run `poetry run flake8` to check for linting errors and fix them accordingly.
+3. **Re-run the CI workflow**: After fixing the issues, push your changes to trigger the CI workflow again.
+
 ## Design Documentation
 
 For detailed design documentation, please refer to the [DESIGN.md](DESIGN.md) file.
