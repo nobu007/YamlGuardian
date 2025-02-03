@@ -28,7 +28,35 @@ jobs:
             core.setFailed('PR is not in a mergeable state');
           }
 
+    - name: Check for CI errors
+      uses: actions/github-script@v3
+      with:
+        script: |
+          const checkRuns = await github.checks.listForRef({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            ref: pr.data.head.sha,
+          });
+          const failedChecks = checkRuns.data.check_runs.filter(check => check.conclusion === 'failure');
+          if (failedChecks.length > 0) {
+            core.setFailed('CI checks have failed');
+          }
+
+    - name: Notify user of CI errors
+      if: failure()
+      uses: actions/github-script@v3
+      with:
+        script: |
+          const prNumber = context.payload.inputs ? context.payload.inputs.pr_number : context.payload.pull_request.number;
+          await github.issues.createComment({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: prNumber,
+            body: 'CI checks have failed. Please review the errors and fix them before merging.',
+          });
+
     - name: Auto merge
+      if: success()
       uses: peter-evans/merge@v2
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
