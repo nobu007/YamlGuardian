@@ -2,6 +2,7 @@ import unittest
 import os
 import csv
 from yamlguardian.directory_analyzer import DirectoryAnalyzer
+import pandas as pd
 
 class TestDirectoryAnalyzer(unittest.TestCase):
 

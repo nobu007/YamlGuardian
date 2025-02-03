@@ -1,5 +1,6 @@
 import unittest
 import yaml
+import jsonschema
 from yamlguardian.validate import load_validation_rules, validate_data, format_errors, validate_openapi_schema, validate_user_defined_yaml, validate_user_provided_yaml
 from yamlguardian.validator import Validator
 from yamlguardian.rules import RuleManager

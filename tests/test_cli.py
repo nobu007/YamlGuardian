@@ -3,6 +3,7 @@ import subprocess
 import os
 from yamlguardian import cli
 import cerberus
+import jsonschema
 
 class TestCLISuccess(unittest.TestCase):
 
