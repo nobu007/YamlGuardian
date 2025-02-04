@@ -2,7 +2,7 @@ import yaml
 import jsonschema
 from cerberus import Validator
 import os
-from yamlguardian.load_yaml import load_yaml_file, format_errors
+from yamlguardian.save_load_yaml import load_yaml, format_errors
 from yamlguardian.directory_analyzer import DirectoryAnalyzer
 from yamlguardian.yaml_json_converter import YamlJsonConverter
 
