@@ -9,7 +9,7 @@ from yamlguardian.load_yaml import load_yaml_file
 
 def main():
     parser = argparse.ArgumentParser(description="Validate data against a YAML schema.")
-    parser.add_argument("-i", "--data", type=str, help="Path to the YAML data file to validate.")
+    parser.add_argument("-i", "--data", type=str, help="Path to the YAML data file to validate.", required=True)
     parser.add_argument(
         "-s",
         "--schema",
