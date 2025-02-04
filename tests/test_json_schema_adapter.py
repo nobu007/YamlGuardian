@@ -1,6 +1,6 @@
 import unittest
 from yamlguardian.yaml_to_json_schema import yaml_to_json_schema
-from yamlguardian.load_yaml import load_yaml_file
+from yamlguardian.save_load_yaml import load_yaml
 
 class TestConvertYamlToJsonSchema(unittest.TestCase):
 
@@ -25,7 +25,7 @@ class TestConvertYamlToJsonSchema(unittest.TestCase):
 class TestLoadYamlFile(unittest.TestCase):
 
     def test_load_yaml_file(self):
-        yaml_content = load_yaml_file('tests/rule_config/page_definitions/page1/test_schema.yaml')
+        yaml_content = load_yaml('tests/rule_config/page_definitions/page1/test_schema.yaml')
         self.assertIsInstance(yaml_content, dict)
 
 if __name__ == '__main__':

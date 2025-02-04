@@ -1,9 +1,11 @@
 import os
 import json
 from glob import glob
-from ruamel.yaml import YAML
 
-yaml = YAML()
+from pathlib import Path
+from yamlguardian.save_load_yaml import load_yaml,save_yaml
+from yamlguardian.save_load_json import to_json,from_json
+
 
 def yaml_to_json_schema(yaml_data, schema_name):
     """YAML データを JSON Schema に変換"""
@@ -60,70 +62,43 @@ def merge_schemas(schema_dict):
 def load_yaml_files(directory):
     """ディレクトリ内の YAML ファイルを読み込んで JSON Schema に変換"""
     schema_dict = {}
-    
+
     for file_path in glob(os.path.join(directory, "*.yaml")):
         schema_name = os.path.splitext(os.path.basename(file_path))[0]
-        
-        with open(file_path, "r", encoding="utf-8") as f:
-            yaml_data = yaml.load(f)
-            schema_dict[schema_name] = yaml_to_json_schema(yaml_data, schema_name)
-    
+        schema_dict[schema_name] = load_yaml(file_path)
+
     return schema_dict
 
 def yaml_to_json(yaml_input, output_file=None):
     """YAMLをJSONに変換
-    
+
     Args:
         yaml_input: YAML文字列またはファイルパス
         output_file: 出力JSONファイルパス（オプション）
-    
+
     Returns:
         JSON文字列または辞書オブジェクト
     """
+
     # 入力処理
-    if isinstance(yaml_input, (str, Path)) and Path(yaml_input).is_file():
-        with open(yaml_input, 'r', encoding='utf-8') as f:
-            data = yaml.load(f)
-    else:
-        data = yaml.load(yaml_input)
-        
+    data = load_yaml(yaml_input)
+
     # 出力処理
-    if output_file:
-        with open(output_file, 'w', encoding='utf-8') as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
-        return data
-    else:
-        return json.dumps(data, ensure_ascii=False, indent=2)
+    to_json(data,    output_file)
 
 def json_to_yaml(json_input, output_file=None):
     """JSONをYAMLに変換
-    
+
     Args:
         json_input: JSON文字列、ファイルパス、または辞書オブジェクト
         output_file: 出力YAMLファイルパス（オプション）
-        
+
     Returns:
         YAML文字列または辞書オブジェクト
     """
-    # 入力処理
-    if isinstance(json_input, dict):
-        data = json_input
-    elif isinstance(json_input, (str, Path)) and Path(json_input).is_file():
-        with open(json_input, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-    else:
-        data = json.loads(json_input)
-        
-    # 出力処理
-    if output_file:
-        with open(output_file, 'w', encoding='utf-8') as f:
-            yaml.dump(data, f)
-        return data
-    else:
-        from io import StringIO
-        stream = StringIO()
-        yaml.dump(data, stream)
-        return stream.getvalue()
+    data = from_json(json_input)
+    save_yaml(data, output_file)
+
 
 if __name__ == "__main__":
     yaml_directory = "./schemas"  # YAML ファイルの格納ディレクトリ

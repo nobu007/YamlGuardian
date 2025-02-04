@@ -1,5 +1,6 @@
 import unittest
-from yamlguardian.cerberus_adapter import convert_yaml_to_cerberus, load_yaml_file
+from yamlguardian.cerberus_adapter import convert_yaml_to_cerberus
+from yamlguardian.save_load_yaml import load_yaml
 
 class TestConvertYamlToCerberus(unittest.TestCase):
 
@@ -25,7 +26,7 @@ class TestConvertYamlToCerberus(unittest.TestCase):
 class TestLoadYamlFile(unittest.TestCase):
 
     def test_load_yaml_file(self):
-        yaml_content = load_yaml_file('tests/rule_config/page_definitions/page1/test_schema.yaml')
+        yaml_content = load_yaml('tests/rule_config/page_definitions/page1/test_schema.yaml')
         self.assertIsInstance(yaml_content, dict)
 
 if __name__ == '__main__':
