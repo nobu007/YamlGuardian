@@ -3,8 +3,8 @@ import yaml
 from yamlguardian.validate import load_validation_rules
 from yamlguardian.validate import validate_data
 from yamlguardian.validate import format_errors
-from yamlguardian.cerberus_adapter import convert_yaml_to_cerberus, load_yaml_file
-from yamlguardian.directory_analyzer import DirectoryAnalyzer
+from yamlguardian.cerberus_adapter import convert_yaml_to_cerberus
+from yamlguardian.load_yaml import load_yaml_file
 
 
 def main():
