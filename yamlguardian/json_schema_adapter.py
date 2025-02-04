@@ -1,10 +1,10 @@
-import os
 import json
+import os
 from glob import glob
-
 from pathlib import Path
-from yamlguardian.save_load_yaml import load_yaml,save_yaml
-from yamlguardian.save_load_json import to_json,from_json
+
+from yamlguardian.save_load_json import from_json, to_json
+from yamlguardian.save_load_yaml import load_yaml, save_yaml
 
 
 def yaml_to_json_schema(yaml_data, schema_name):
@@ -14,7 +14,7 @@ def yaml_to_json_schema(yaml_data, schema_name):
         "title": schema_name,
         "type": "object",
         "properties": {},
-        "required": []
+        "required": [],
     }
 
     for key, value in yaml_data.items():
@@ -44,13 +44,14 @@ def yaml_to_json_schema(yaml_data, schema_name):
 
     return json_schema
 
+
 def merge_schemas(schema_dict):
     """複数の JSON Schema を統合 ($defs に登録)"""
     merged_schema = {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
         "properties": {},
-        "$defs": {}
+        "$defs": {},
     }
 
     for schema_name, schema in schema_dict.items():
@@ -58,6 +59,7 @@ def merge_schemas(schema_dict):
         merged_schema["properties"][schema_name] = {"$ref": f"#/$defs/{schema_name}"}
 
     return merged_schema
+
 
 def load_yaml_files(directory):
     """ディレクトリ内の YAML ファイルを読み込んで JSON Schema に変換"""
@@ -68,6 +70,7 @@ def load_yaml_files(directory):
         schema_dict[schema_name] = load_yaml(file_path)
 
     return schema_dict
+
 
 def yaml_to_json(yaml_input, output_file=None):
     """YAMLをJSONに変換
@@ -84,7 +87,8 @@ def yaml_to_json(yaml_input, output_file=None):
     data = load_yaml(yaml_input)
 
     # 出力処理
-    to_json(data,    output_file)
+    to_json(data, output_file)
+
 
 def json_to_yaml(json_input, output_file=None):
     """JSONをYAMLに変換

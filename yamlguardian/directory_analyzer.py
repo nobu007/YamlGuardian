@@ -1,10 +1,12 @@
-import os
-import yaml
-import time
-import pandas as pd
 import csv
-from .hierarchy_reader import HierarchyReader
+import os
+import time
+
+import pandas as pd
+import yaml
+
 from .hierarchy_merger import HierarchyMerger
+from .hierarchy_reader import HierarchyReader
 
 
 class DirectoryAnalyzer:

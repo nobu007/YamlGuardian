@@ -1,5 +1,6 @@
 import unittest
-from yamlguardian.yaml_to_json_schema import yaml_to_json_schema, load_yaml_schemas
+
+from yamlguardian.yaml_to_json_schema import load_yaml_schemas, yaml_to_json_schema
 
 
 class TestConvertYamlToJsonSchema(unittest.TestCase):

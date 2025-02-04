@@ -1,13 +1,14 @@
 import json
-from ruamel.yaml import YAML, CommentedMap
 from pathlib import Path
+
+from ruamel.yaml import YAML, CommentedMap
 
 
 class YamlJsonConverter:
     def __init__(self):
         self.yaml = YAML()
 
-    def yaml_to_json(self, yaml_input: CommentedMap|str|Path, output_file=None):
+    def yaml_to_json(self, yaml_input: CommentedMap | str | Path, output_file=None):
         """YAMLをJSONに変換
 
         Args:

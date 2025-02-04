@@ -1,7 +1,9 @@
 import yaml
-from yamlguardian.validator import Validator
+
 from yamlguardian.rules import RuleManager
-from yamlguardian.validate import load_validation_rules, validate_data, format_errors
+from yamlguardian.validate import format_errors, load_validation_rules, validate_data
+from yamlguardian.validator import Validator
+
 
 class YamlGuardian:
     def __init__(self, schema_file, relations_file=None, common_definitions_file=None):

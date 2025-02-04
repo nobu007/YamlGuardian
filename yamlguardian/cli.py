@@ -1,17 +1,23 @@
 import argparse
-import yaml
 import os
-from yamlguardian.validate import load_validation_rules
-from yamlguardian.validate import validate_data
-from yamlguardian.validate import format_errors
+
+import yaml
+
 from yamlguardian.json_schema_adapter import yaml_to_json_schema
-from yamlguardian.yaml_to_json_schema import load_yaml_schemas
 from yamlguardian.save_load_yaml import load_yaml
+from yamlguardian.validate import format_errors, load_validation_rules, validate_data
+from yamlguardian.yaml_to_json_schema import load_yaml_schemas
 
 
 def main():
     parser = argparse.ArgumentParser(description="Validate data against a YAML schema.")
-    parser.add_argument("-i", "--input_file_or_dir", type=str, help="Path to the YAML data file or directory to validate.", required=True)
+    parser.add_argument(
+        "-i",
+        "--input_file_or_dir",
+        type=str,
+        help="Path to the YAML data file or directory to validate.",
+        required=True,
+    )
     parser.add_argument(
         "-s",
         "--schema_file_or_dir",
@@ -41,7 +47,6 @@ def main():
         print(format_errors(errors))
     else:
         print(f"Validation succeeded for {file}.")
-
 
 
 if __name__ == "__main__":
