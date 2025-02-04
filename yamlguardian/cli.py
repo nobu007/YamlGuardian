@@ -35,13 +35,12 @@ def main():
 
     yaml_schema = load_validation_rules(args.schema_file_or_dir)
     cerberus_schema = convert_yaml_to_cerberus(yaml_schema)
-    errors = validate_data(data, cerberus_schema)
+    errors = validate_data(schema_dict, cerberus_schema)
     if errors:
-        print(f"Validation failed for {file} with the following errors:")
+        print(f"Validation failed with the following errors:")
         print(format_errors(errors))
     else:
-        print(f"Validation succeeded for {file}.")
-
+        print("Validation succeeded.")
 
 
 if __name__ == "__main__":
