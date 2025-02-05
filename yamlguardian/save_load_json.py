@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 
 
-def from_json(json_input:dict|str|Path)->dict:
+def from_json(json_input: dict | str | Path) -> dict:
     """JSONファイルまたはJSON文字列を辞書にする
 
     Args:
@@ -15,14 +15,14 @@ def from_json(json_input:dict|str|Path)->dict:
     if isinstance(json_input, dict):
         data = json_input
     elif isinstance(json_input, (str, Path)) and Path(json_input).is_file():
-        with open(json_input, 'r', encoding='utf-8') as f:
+        with open(json_input, "r", encoding="utf-8") as f:
             data = json.load(f)
     else:
         data = json.loads(json_input)
     return data
 
 
-def to_json(data:dict, output_file:str=None):
+def to_json(data: dict, output_file: str = None):
     """JSONファイルまたはJSON文字列にする
 
     Args:
@@ -34,12 +34,13 @@ def to_json(data:dict, output_file:str=None):
     """
 
     if output_file:
-        with open(output_file, 'w', encoding='utf-8') as f:
+        with open(output_file, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
         return data
     else:
         return json.dumps(data, ensure_ascii=False, indent=2)
 
+
 if __name__ == "__main__":
-    data_ = {"aa":"bb"}
+    data_ = {"aa": "bb"}
     print(to_json(data_))
