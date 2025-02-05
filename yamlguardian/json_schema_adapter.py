@@ -7,6 +7,11 @@ from yamlguardian.save_load_json import from_json, to_json
 from yamlguardian.save_load_yaml import load_yaml, save_yaml
 
 
+def yaml_file_to_json_schema(yaml_file_or_dir, schema_name):
+    # TODO: need?
+    pass
+
+
 def yaml_to_json_schema(yaml_data, schema_name):
     """YAML データを JSON Schema に変換"""
     json_schema = {

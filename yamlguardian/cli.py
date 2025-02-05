@@ -5,7 +5,7 @@ import yaml
 
 from yamlguardian.json_schema_adapter import yaml_to_json_schema
 from yamlguardian.save_load_yaml import load_yaml
-from yamlguardian.validate import format_errors, load_validation_rules, validate_data
+from yamlguardian.validate import format_errors, validate_openapi_schema
 from yamlguardian.yaml_to_json_schema import load_yaml_schemas
 
 
@@ -39,14 +39,16 @@ def main():
         schema_dict = {}
         schema_dict[schema_name] = load_yaml(input_file)
 
-    yaml_schema = load_validation_rules(args.schema_file_or_dir)
-    cerberus_schema = convert_yaml_to_cerberus(yaml_schema)
-    errors = validate_data(data, cerberus_schema)
+    json_schema = yaml_to_json_schema(schema_dict, "test")
+    print("json_schema=", json_schema)
+    errors = validate_openapi_schema(json_schema)
     if errors:
-        print(f"Validation failed for {file} with the following errors:")
+        print(f"Validation openapi_schema failed for {args.input_file_or_dir} with the following errors:")
         print(format_errors(errors))
     else:
-        print(f"Validation succeeded for {file}.")
+        print(f"Validation succeeded for {args.input_file_or_dir}.")
+
+    # TODO: validate data against json_schema
 
 
 if __name__ == "__main__":

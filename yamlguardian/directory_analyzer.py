@@ -5,8 +5,8 @@ import time
 import pandas as pd
 import yaml
 
-from .hierarchy_merger import HierarchyMerger
-from .hierarchy_reader import HierarchyReader
+from yamlguardian.hierarchy_merger import HierarchyMerger
+from yamlguardian.hierarchy_reader import HierarchyReader
 
 
 class DirectoryAnalyzer:
