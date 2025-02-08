@@ -1,8 +1,6 @@
 import argparse
 import os
 
-import yaml
-
 from yamlguardian.json_schema_adapter import yaml_to_json_schema
 from yamlguardian.save_load_yaml import load_yaml
 from yamlguardian.validate import format_errors, validate_openapi_schema

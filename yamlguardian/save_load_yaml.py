@@ -2,9 +2,7 @@ import os
 from pathlib import Path
 
 import jsonschema
-import yaml
 from ruamel.yaml import YAML
-
 from yamlguardian.validator import Validator
 
 yaml = YAML()
@@ -21,7 +19,7 @@ def load_yaml(yaml_file_or_contents: str) -> dict:
         dict | None: a dictionary containing the YAML's content, or throws an exception.
     """
     if isinstance(yaml_file_or_contents, (str, Path)) and Path(yaml_file_or_contents).is_file():
-        with open(yaml_file_or_contents, "r", encoding="utf-8") as f:
+        with open(yaml_file_or_contents, encoding="utf-8") as f:
             schema = yaml.load(f)
     else:
         schema = yaml.load(yaml_file_or_contents)

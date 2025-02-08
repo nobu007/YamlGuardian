@@ -20,7 +20,7 @@ class YamlJsonConverter:
         """
         # 入力処理
         if isinstance(yaml_input, (str, Path)) and Path(yaml_input).is_file():
-            with open(yaml_input, "r", encoding="utf-8") as f:
+            with open(yaml_input, encoding="utf-8") as f:
                 data = self.yaml.load(f)
         else:
             try:
@@ -50,7 +50,7 @@ class YamlJsonConverter:
         if isinstance(json_input, dict):
             data = json_input
         elif isinstance(json_input, (str, Path)) and Path(json_input).is_file():
-            with open(json_input, "r", encoding="utf-8") as f:
+            with open(json_input, encoding="utf-8") as f:
                 data = json.load(f)
         else:
             data = json.loads(json_input)

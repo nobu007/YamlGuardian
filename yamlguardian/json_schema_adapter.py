@@ -1,7 +1,6 @@
 import json
 import os
 from glob import glob
-from pathlib import Path
 
 from yamlguardian.save_load_json import from_json, to_json
 from yamlguardian.save_load_yaml import load_yaml, save_yaml

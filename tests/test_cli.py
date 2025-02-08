@@ -1,15 +1,8 @@
-import os
 import subprocess
 import unittest
 
-import cerberus
-import jsonschema
-
-from yamlguardian import cli
-
 
 class TestCLISuccess(unittest.TestCase):
-
     def test_cli_success(self):
         result = subprocess.run(
             [
@@ -22,11 +15,10 @@ class TestCLISuccess(unittest.TestCase):
             capture_output=True,
             text=True,
         )
-        self.assertIn("Validation succeeded.", result.stdout)
+        assert "Validation succeeded." in result.stdout
 
 
 class TestCLIFailure(unittest.TestCase):
-
     def test_cli_failure(self):
         result = subprocess.run(
             [
@@ -39,7 +31,7 @@ class TestCLIFailure(unittest.TestCase):
             capture_output=True,
             text=True,
         )
-        self.assertIn("Validation failed with the following errors:", result.stdout)
+        assert "Validation failed with the following errors:" in result.stdout
 
 
 if __name__ == "__main__":

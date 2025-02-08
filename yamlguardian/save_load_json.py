@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+from typing import Optional
 
 
 def from_json(json_input: dict | str | Path) -> dict:
@@ -15,14 +16,14 @@ def from_json(json_input: dict | str | Path) -> dict:
     if isinstance(json_input, dict):
         data = json_input
     elif isinstance(json_input, (str, Path)) and Path(json_input).is_file():
-        with open(json_input, "r", encoding="utf-8") as f:
+        with open(json_input, encoding="utf-8") as f:
             data = json.load(f)
     else:
         data = json.loads(json_input)
     return data
 
 
-def to_json(data: dict, output_file: str = None):
+def to_json(data: dict, output_file: Optional[str] = None):
     """JSONファイルまたはJSON文字列にする
 
     Args:

@@ -3,22 +3,16 @@ import sys
 import jsonschema
 import uvicorn
 import yaml
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
-
-from yamlguardian.validate import (
-    validate_openapi_schema,
-    validate_user_defined_yaml,
-    validate_user_provided_yaml,
-    validate_yaml_data,
-)
+from yamlguardian.validate import validate_yaml_data
 
 
 # スキーマのロード関数
 def load_schema(schema_path: str):
     """YAMLスキーマファイルを読み込む"""
-    with open(schema_path, "r", encoding="utf-8") as f:
+    with open(schema_path, encoding="utf-8") as f:
         return yaml.safe_load(f)
 
 

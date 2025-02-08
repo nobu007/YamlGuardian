@@ -4,11 +4,9 @@ import json
 import os
 import tempfile
 from glob import glob
-from pathlib import Path
 
 import jsonref
 from ruamel.yaml import YAML
-
 from yamlguardian.save_load_json import to_json
 from yamlguardian.save_load_yaml import save_yaml
 from yamlguardian.yaml_json_converter import YamlJsonConverter
@@ -60,7 +58,6 @@ def jsonref_to_dict(jsonref_obj: jsonref.JsonRef | list | dict | str):
 
 
 def dereference_schema(json_schema: jsonref.JsonRef):
-
     def custom_jsonref_jsonloader(uri, **kwargs):
         return {}
 
@@ -103,7 +100,7 @@ def resolve_merged_json_schema(merged_json_schema) -> jsonref.JsonRef:
     # 参照を解決
     resolved_json_schema = None
 
-    with open(merged_json_schema_path, "r", encoding="utf-8") as f:
+    with open(merged_json_schema_path, encoding="utf-8") as f:
         resolved_json_schema = jsonref.load(f)
 
     return resolved_json_schema
@@ -116,7 +113,7 @@ def load_yaml_schemas(directory):
     for file_path in glob(os.path.join(directory, "**/*.yaml"), recursive=True):
         schema_name = os.path.splitext(os.path.basename(file_path))[0]
 
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(file_path, encoding="utf-8") as f:
             yaml_schema = yaml.load(f)
             yaml_schema_dict[schema_name] = yaml_schema
 

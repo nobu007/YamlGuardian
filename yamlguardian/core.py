@@ -2,13 +2,12 @@ import os
 
 import yaml
 from fastapi import HTTPException
-
 from yamlguardian.directory_analyzer import DirectoryAnalyzer
 from yamlguardian.hierarchy_merger import HierarchyMerger
 from yamlguardian.hierarchy_reader import HierarchyReader
 from yamlguardian.rules import RuleManager
-from yamlguardian.validate import format_errors, load_validation_rules, validate_data
-from yamlguardian.validator import Validator
+from yamlguardian.validate import (format_errors, load_validation_rules,
+                                   validate_data)
 
 
 class YamlGuardian:
@@ -22,7 +21,7 @@ class YamlGuardian:
 
     def load_yaml(self, file_path):
         try:
-            with open(file_path, "r", encoding="utf-8") as file:
+            with open(file_path, encoding="utf-8") as file:
                 return yaml.safe_load(file)
         except yaml.YAMLError as e:
             raise ValueError(f"YAML読み込みエラー: {e}")

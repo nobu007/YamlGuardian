@@ -1,6 +1,3 @@
-import yaml
-
-
 def convert_yaml_to_cerberus(yaml_schema):
     cerberus_schema = {}
     for field, rules in yaml_schema.items():

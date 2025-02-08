@@ -4,7 +4,6 @@ import time
 
 import pandas as pd
 import yaml
-
 from yamlguardian.hierarchy_merger import HierarchyMerger
 from yamlguardian.hierarchy_reader import HierarchyReader
 
@@ -37,7 +36,7 @@ class DirectoryAnalyzer:
 
         # read new content
         is_changed = True
-        with open(file_path, "r", encoding="utf-8") as file:
+        with open(file_path, encoding="utf-8") as file:
             content = yaml.safe_load(file)
             self.validation_schema_cache[file_path] = (content, os.path.getmtime(file_path))
             return content, is_changed
@@ -106,5 +105,5 @@ if __name__ == "__main__":
 
     analyzer.save_changes_to_csv(changes, "directory_structure_changes.csv")
     analyzer.save_cache()
-    print(f"Changes saved to directory_structure_changes.csv")
+    print("Changes saved to directory_structure_changes.csv")
     print(f"Timestamp: {time.strftime('%Y-%m-%d %H:%M:%S')}")

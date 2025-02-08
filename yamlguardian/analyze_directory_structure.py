@@ -31,7 +31,7 @@ class DirectoryAnalyzer:
             current_timestamp = os.path.getmtime(file_path)
             if current_timestamp <= cached_timestamp:
                 return cached_content
-        with open(file_path, "r", encoding="utf-8") as file:
+        with open(file_path, encoding="utf-8") as file:
             content = yaml.safe_load(file)
             self.cache[file_path] = (content, os.path.getmtime(file_path))
             return content
@@ -79,5 +79,5 @@ if __name__ == "__main__":
     changes = analyzer.analyze_directory_structure(root_directory)
     analyzer.save_changes_to_csv(changes, "directory_structure_changes.csv")
     analyzer.save_cache()
-    print(f"Changes saved to directory_structure_changes.csv")
+    print("Changes saved to directory_structure_changes.csv")
     print(f"Timestamp: {time.strftime('%Y-%m-%d %H:%M:%S')}")
