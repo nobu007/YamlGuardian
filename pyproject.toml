@@ -52,6 +52,7 @@ test = [
   "flake8",
   "flake8-docstrings",
   "isort",
+  "ruff",
   "mypy",
   "pytest",
   "pytest-cov",
