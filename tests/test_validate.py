@@ -2,10 +2,14 @@ import unittest
 
 from yamlguardian.core import YamlGuardian
 from yamlguardian.rules import RuleManager
-from yamlguardian.validate import (format_errors, load_validation_rules,
-                                   validate_data, validate_openapi_schema,
-                                   validate_user_defined_yaml,
-                                   validate_user_provided_yaml)
+from yamlguardian.validate import (
+    format_errors,
+    load_validation_rules,
+    validate_data,
+    validate_openapi_schema,
+    validate_user_defined_yaml,
+    validate_user_provided_yaml,
+)
 from yamlguardian.validator import Validator
 
 

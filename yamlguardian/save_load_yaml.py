@@ -3,6 +3,7 @@ from pathlib import Path
 
 import jsonschema
 from ruamel.yaml import YAML
+
 from yamlguardian.validator import Validator
 
 yaml = YAML()

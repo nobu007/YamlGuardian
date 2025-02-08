@@ -4,6 +4,7 @@ import time
 
 import pandas as pd
 import yaml
+
 from yamlguardian.hierarchy_merger import HierarchyMerger
 from yamlguardian.hierarchy_reader import HierarchyReader
 
